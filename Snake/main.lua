@@ -7,7 +7,8 @@ function love.load()
   
   timer = 0
   
-  direction = 'right'
+  -- Removed: direction = 'right'
+  directionQueue = {'right'}
 end
 
 function love.update(dt)
@@ -15,16 +16,20 @@ function love.update(dt)
   if timer >= 0.15 then
     timer = 0
     
+    if #directionQueue > 1 then
+      table.remove(directionQueue, 1)
+    end
+    
     local nextXPosition = snakeSegments[1].x
     local nextYPosition = snakeSegments[1].y
     
-    if direction == 'right' then
+    if directionQueue[1] == 'right' then
       nextXPosition = nextXPosition + 1
-    elseif direction == 'left' then
+    elseif directionQueue[1] == 'left' then
       nextXPosition = nextXPosition - 1
-    elseif direction == 'down' then
+    elseif directionQueue[1] == 'down' then
       nextYPosition = nextYPosition + 1
-    elseif direction == 'up' then
+    elseif directionQueue[1] == 'up' then
       nextYPosition = nextYPosition - 1
     end
     
@@ -37,20 +42,20 @@ end
 
 function love.keypressed(key)
   if key == 'right'
-  and direction ~= 'left' then
-    direction = 'right'
+  and directionQueue[#directionQueue] ~= 'left' then
+    table.insert(directionQueue, 'right')
     
   elseif key == 'left'
-  and direction ~= 'right' then
-    direction = 'left'
+  and directionQueue[#directionQueue] ~= 'right' then
+    table.insert(directionQueue, 'left')
     
   elseif key == 'down'
-  and direction ~= 'up' then
-    direction = 'down'
+  and directionQueue[#directionQueue] ~= 'up' then
+    table.insert(directionQueue, 'down')
     
   elseif key == 'up'
-  and direction ~= 'down' then
-    direction = 'up'
+  and directionQueue[#directionQueue] ~= 'down' then
+    table.insert(directionQueue, 'up')
   end
 end
 
@@ -76,6 +81,15 @@ function love.draw()
       (segment.y - 1) * cellSize,
       cellSize - 1,
       cellSize - 1
+    )
+  end
+  
+  -- Temporary
+  for directionIndex, direction in ipairs(directionQueue) do
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.print(
+      'directionQueue['..directionIndex..']: '..direction,
+      15, 15 * directionIndex
     )
   end
 end
