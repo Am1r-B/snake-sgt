@@ -1,4 +1,11 @@
 function love.load()
+  -- Moved and "local" removed
+  snakeSegments = {
+    {x = 3, y = 1},
+    {x = 2, y = 1},
+    {x = 1, y = 1}
+  }
+  
   timer = 0
 end
 
@@ -6,8 +13,14 @@ function love.update(dt)
   timer = timer + dt
   if timer >= 0.15 then
     timer = 0
-    -- Temporary
-    print('tick')
+    
+    local nextXPosition = snakeSegments[1].x + 1
+    local nextYPosition = snakeSegments[1].y
+    
+    table.insert(snakeSegments, 1, {
+      x = nextXPosition, y = nextYPosition
+    })
+    table.remove(snakeSegments)
   end
 end
 
@@ -25,11 +38,7 @@ function love.draw()
     gridYCount * cellSize
   )
   
-  local snakeSegments = {
-    {x = 3, y = 1},
-    {x = 2, y = 1},
-    {x = 1, y = 1}
-  }
+  -- Moved: local snakeSegments
   
   for segmentIndex, segment in ipairs(snakeSegments) do
     love.graphics.setColor(.6, 1, .32)
