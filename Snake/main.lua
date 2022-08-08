@@ -7,7 +7,6 @@ function love.load()
   
   timer = 0
   
-  -- Removed: direction = 'right'
   directionQueue = {'right'}
 end
 
@@ -42,18 +41,22 @@ end
 
 function love.keypressed(key)
   if key == 'right'
+  and directionQueue[#directionQueue] ~= 'right'
   and directionQueue[#directionQueue] ~= 'left' then
     table.insert(directionQueue, 'right')
     
   elseif key == 'left'
+  and directionQueue[#directionQueue] ~= 'left'
   and directionQueue[#directionQueue] ~= 'right' then
     table.insert(directionQueue, 'left')
     
   elseif key == 'down'
+  and directionQueue[#directionQueue] ~= 'down'
   and directionQueue[#directionQueue] ~= 'up' then
     table.insert(directionQueue, 'down')
     
   elseif key == 'up'
+  and directionQueue[#directionQueue] ~= 'up'
   and directionQueue[#directionQueue] ~= 'down' then
     table.insert(directionQueue, 'up')
   end
@@ -87,9 +90,6 @@ function love.draw()
   -- Temporary
   for directionIndex, direction in ipairs(directionQueue) do
     love.graphics.setColor(1, 1, 1)
-    love.graphics.print(
-      'directionQueue['..directionIndex..']: '..direction,
-      15, 15 * directionIndex
-    )
+    love.graphics.print('directionQueue['..directionIndex..']: '..direction, 15, 15 * directionIndex)
   end
 end
