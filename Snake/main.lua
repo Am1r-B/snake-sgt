@@ -1,3 +1,16 @@
+function love.load()
+  timer = 0
+end
+
+function love.update(dt)
+  timer = timer + dt
+  if timer >= 0.15 then
+    timer = 0
+    -- Temporary
+    print('tick')
+  end
+end
+
 function love.draw()
   local gridXCount = 20
   local gridYCount = 15
