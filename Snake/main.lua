@@ -9,9 +9,13 @@ function love.load()
   
   directionQueue = {'right'}
   
-  -- Moved and "local" removed
   gridXCount = 20
   gridYCount = 15
+  
+  foodPosition = {
+    x = love.math.random(1, gridXCount),
+    y = love.math.random(1, gridYCount)
+  }
 end
 
 function love.update(dt)
@@ -79,8 +83,6 @@ function love.keypressed(key)
 end
 
 function love.draw()
-  -- Removed: local gridXCount = 20
-  -- Removed: local gridYCount = 15
   local cellSize = 15
   
   love.graphics.setColor(.28, .28, .28)
@@ -102,4 +104,14 @@ function love.draw()
       cellSize - 1
     )
   end
+  
+  love.graphics.setColor(1, .3, .3)
+  love.graphics.rectangle(
+    'fill',
+    (foodPosition.x - 1) * cellSize,
+    (foodPosition.y - 1) * cellSize,
+    cellSize - 1,
+    cellSize - 1
+  )
+
 end
