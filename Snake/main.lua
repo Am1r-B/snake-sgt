@@ -1,14 +1,4 @@
 function love.load()
-  snakeSegments = {
-    {x = 3, y = 1},
-    {x = 2, y = 1},
-    {x = 1, y = 1}
-  }
-  
-  timer = 0
-  
-  directionQueue = {'right'}
-  
   gridXCount = 20
   gridYCount = 15
   
@@ -36,9 +26,19 @@ function love.load()
     ]
   end
   
-  moveFood()
+  function reset()
+    snakeSegments = {
+      {x = 3, y = 1},
+      {x = 2, y = 1},
+      {x = 1, y = 1}
+    }
+    directionQueue = {'right'}    
+    snakeAlive = true
+    timer = 0
+    moveFood()
+  end
   
-  snakeAlive = true
+  reset()
 end
 
 function love.update(dt)
@@ -103,7 +103,7 @@ function love.update(dt)
       end
     end
   elseif timer >= 2 then
-    love.load()
+    reset()
   end
 end
 
